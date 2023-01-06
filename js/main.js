@@ -20,6 +20,7 @@ searchInputEl.addEventListener('blur', function () {
 
 //페이지 스크롤에 따른 요소 제어
 const badgeEl = document.querySelector('header .badges');
+const toTopEl = document.querySelector('#to-top');
 
 window.addEventListener('scroll', function () {
    console.log(window.scrollY);
@@ -29,13 +30,29 @@ window.addEventListener('scroll', function () {
          opacity: 0,
          display: 'none'
       });
+
+      gsap.to(toTopEl, .6, {
+         opacity: 1,
+         x:0
+      });
    } else {
       //badgeEl.style.display = 'block';
       gsap.to(badgeEl, .6, {
          opacity: 1,
          display: 'block'
       });
+
+      gsap.to(toTopEl, .6, {
+         opacity: 0,
+         x: 100
+      });
    }
+});
+
+toTopEl.addEventListener('click',function() {
+   gsap.to(window, .6, {
+      scrollTo: 0
+   });
 });
 
 //나타탈 요소(.fade-in)들을 찾기
@@ -80,3 +97,53 @@ promotionToggleBtn.addEventListener('click', function() {
       promotionEl.classList.add('hide');
    }
 });
+
+gsap.to('.floating1', 1.5, {
+   delay: 1,
+   y: 15,
+   repeat: -1,
+   yoyo: true,
+   ease: Power1.easeInOut
+});
+
+gsap.to('.floating2', 1.5, {
+   delay: 1,
+   y: 15,
+   repeat: -1,
+   yoyo: true,
+   ease: Power1.easeInOut
+});
+
+gsap.to('.floating3', 1.5, {
+   delay: 1,
+   y: 15,
+   repeat: -1,
+   yoyo: true,
+   ease: Power1.easeInOut
+});
+
+const spyEls = document.querySelectorAll('section.scroll-spy');
+spyEls.forEach(function (spyEl) {
+   new ScrollMagic
+   .Scene({
+      triggerElement: spyEl,
+      triggerHook: .8
+   })
+   .setClassToggle(spyEl, 'show')
+   .addTo(new ScrollMagic.Controller());
+})
+
+new Swiper('.awards .swiper', {
+   autoplay: true,
+   loop: true,
+   spaceBetween: 30,
+   slidesPerView: 5,
+   navigator: {
+      prevEl: '.awards .swiper-button-prev',
+      nextEl: '.awards .swiper-button-next'
+   }
+});
+
+const thisYear = document.querySelector('.this-year');
+thisYear.textContent = new Date().getFullYear();
+
